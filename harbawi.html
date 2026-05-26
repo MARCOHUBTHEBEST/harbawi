@@ -1,0 +1,130 @@
+<!DOCTYPE html>  
+<html lang="ar" dir="rtl">  
+<head>  
+<meta charset="UTF-8">  
+<meta name="viewport" content="width=device-width,initial-scale=1">  
+<title>الاله حرباوي</title>  
+<style>  
+*{box-sizing:border-box;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;transition:.3s}  
+html,body{margin:0;min-height:100%;overflow-x:hidden;position:relative}  
+body{background:linear-gradient(rgba(0,0,0,.85),rgba(0,0,0,.45)),url("https://raw.githubusercontent.com/albdallhbdalqwy24-pixel/hshwhwh/6ac937e46630e7e5ea886fec205b8c14ce0327ba/IMG_20260106_023922_255.jpg") center/cover fixed;color:#f2f2f6;}  
+.container{max-width:520px;margin:auto;padding:24px;position:relative;z-index:1}  
+.card{background:rgba(18,18,24,.88);border-radius:22px;padding:22px;box-shadow:0 25px 70px rgba(0,0,0,.7);backdrop-filter:blur(10px);animation:enter .7s ease;}  
+@keyframes enter{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}  
+.header{text-align:center;margin-bottom:20px;border-bottom:1px solid rgba(255,255,255,.1);padding-bottom:10px;}  
+h1{font-size:24px;margin:0;color:#ff2a2a;text-shadow:0 0 10px rgba(255,42,42,0.3);}  
+label{font-size:13px;color:#b9b9c6;display:block;margin-top:10px;}  
+input,textarea{width:100%;margin:6px 0 14px;padding:12px 14px;border-radius:14px;border:1px solid rgba(255,255,255,.15);background:rgba(10,10,14,.6);color:#f2f2f6;}  
+input:focus,textarea:focus{outline:none;box-shadow:0 0 15px #ff2a2a;border-color:#ff2a2a;transform:scale(1.01);}  
+textarea{min-height:120px}  
+button.main{width:100%;padding:15px;border-radius:16px;border:none;background:linear-gradient(135deg,#ff2a2a,#ff6b6b);font-weight:800;color:#fff;cursor:pointer;font-size:16px;}  
+button.main:hover{transform:scale(1.02);box-shadow:0 0 15px #ff2a2a}  
+#auto-spam-btn {
+    margin-top: 12px;
+    width: 100%;
+    padding: 15px;
+    border-radius: 16px;
+    border: 2px dashed #ff2a2a;
+    background: transparent;
+    color: #f2f2f6;
+    font-weight: 800;
+    cursor: pointer;
+    font-size: 16px;
+}
+#auto-spam-btn.active {
+    background: #ff2a2a;
+    border-color: #ff2a2a;
+    color: white;
+    animation: pulse 1s infinite;
+}
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.02); }
+    100% { transform: scale(1); }
+}
+.counter{margin-top:20px;font-size:15px;text-align:center;color:#b9b9c6;position:relative;background:rgba(0,0,0,0.3);padding:12px;border-radius:14px;}  
+.counter b{display:inline-block;background:#ff2a2a;color:#fff;padding:2px 10px;border-radius:12px;margin-right:6px;}  
+#progress-bar{height:6px;border-radius:6px;background:rgba(255,255,255,.2);overflow:hidden;margin-top:10px}  
+#progress-fill{height:100%;width:0%;background:#ff2a2a;border-radius:6px;transition:width .5s}  
+.footer{display:flex;justify-content:space-between;align-items:center;margin-top:20px;font-size:13px;border-top:1px solid rgba(255,255,255,.1);padding-top:15px;}  
+.footer a{color:#ff6b6b;text-decoration:none;font-weight:bold;}
+.footer a:hover{text-shadow:0 0 8px #ff6b6b;}
+.toast{position:fixed;top:20px;left:50%;transform:translateX(-50%) scale(0);background:#ff2a2a;color:#fff;padding:12px 20px;border-radius:14px;z-index:9999;font-weight:800;transition:.4s ease;opacity:0}
+.toast.show{transform:translateX(-50%) scale(1);opacity:1}
+</style>
+</head>  
+<body>  
+
+<div class="container">  
+<div class="card">  
+<div class="header">  
+<h1>شد خارجي حرباوي 🔥</h1>  
+</div>  
+
+<label>بريد الدعم</label>
+<input id="email" placeholder="abuse@telegram.org">
+
+<label>الموضوع</label>
+<input id="subject" placeholder="أدخل موضوع البلاغ هنا">
+
+<label>نص البلاغ</label>
+<textarea id="body" placeholder="أدخل نص البلاغ هنا"></textarea>  
+
+<button class="main" id="send">📤 إرسال بلاغ (يدوي)</button>
+<button id="auto-spam-btn">🔄 تفعيل الإرسال التلقائي</button>
+
+<div class="counter">  
+<span>عدد البلاغات المرسلة:</span> <b id="count">0</b>  
+<div id="progress-bar"><div id="progress-fill"></div></div>  
+</div>  
+
+<div class="footer">  
+<span>الحقوق: <b>حرباوي</b></span>  
+<a href="https://t.me/j_w_j_m" target="_blank">المطور تليجرام: @j_w_j_m</a>  
+</div>  
+</div>  
+</div>  
+
+<div id="toast" class="toast"></div>  
+
+<script>  
+const d=i=>document.getElementById(i);  
+["email","subject","body"].forEach(id=>{ d(id).value=localStorage[id]||""; d(id).oninput=()=>localStorage[id]=d(id).value; });  
+  
+let count = Number(localStorage.count||0);  
+d("count").innerText = count;  
+
+function updateProgress(){ let p=(count % 100); d("progress-fill").style.width=p+"%"; }  
+updateProgress();  
+  
+function executeSend() {
+ let e=d("email").value||"abuse@telegram.org";  
+ let s=encodeURIComponent(d("subject").value);  
+ let b=encodeURIComponent(d("body").value);  
+ count+=1; localStorage.count=count; d("count").innerText=count; updateProgress();  
+ window.open(`mailto:${e}?subject=${s}&body=${b}`, '_self');
+}
+
+d("send").onclick=()=> { executeSend(); };  
+  
+let spamInterval = null;
+d("auto-spam-btn").onclick = function() {
+    if(spamInterval) {
+        clearInterval(spamInterval);
+        spamInterval = null;
+        this.innerText = "🔄 تفعيل الإرسال التلقائي";
+        this.classList.remove("active");
+        showToast("تم إيقاف الإرسال التلقائي");
+    } else {
+        spamInterval = setInterval(executeSend, 3000); // يرسل تلقائياً كل 3 ثوانٍ بدون حد
+        this.innerText = "🛑 إيقاف الإرسال التلقائي";
+        this.classList.add("active");
+        showToast("بدأ الإرسال التلقائي ");
+    }
+};
+
+function showToast(msg){const toast=d("toast");toast.innerText=msg;toast.classList.add("show");setTimeout(()=>{toast.classList.remove("show")},2000)}
+</script>
+
+</body>  
+</html>
